@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lil' Komodo | Baby Animal Rappers</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;700&display=swap');
+
+    :root {
+      --green: #4caf50;
+      --dark-green: #1b5e20;
+      --gold: #ffd700;
+      --bg: #0a0a0a;
+      --card: #111;
+      --text: #f0f0f0;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Animated background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at 20% 50%, #1b5e2033 0%, transparent 60%),
+                  radial-gradient(ellipse at 80% 20%, #ffd70011 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    header {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 60px 20px 20px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--gold);
+      color: #000;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-family: 'Bangers', cursive;
+      font-size: clamp(4rem, 12vw, 9rem);
+      letter-spacing: 4px;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--green) 30%, var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: none;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: #888;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 8px;
+    }
+
+    /* Hero section */
+    .hero {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+      gap: 40px;
+    }
+
+    .komodo-avatar {
+      width: 200px;
+      height: 200px;
+      background: linear-gradient(145deg, #1b5e20, #2e7d32);
+      border-radius: 50%;
+      border: 4px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 100px;
+      box-shadow: 0 0 40px #ffd70044, 0 0 80px #4caf5022;
+      animation: pulse 3s ease-in-out infinite;
+      position: relative;
+    }
+
+    .komodo-avatar::after {
+      content: '🎤';
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      font-size: 36px;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 40px #ffd70044, 0 0 80px #4caf5022; }
+      50% { box-shadow: 0 0 60px #ffd70077, 0 0 120px #4caf5044; }
+    }
+
+    .bio {
+      max-width: 600px;
+      text-align: center;
+    }
+
+    .bio h2 {
+      font-family: 'Bangers', cursive;
+      font-size: 2.5rem;
+      letter-spacing: 2px;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .bio p {
+      color: #aaa;
+      line-height: 1.7;
+      font-size: 1rem;
+    }
+
+    /* Stats bar */
+    .stats {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 20px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid #222;
+      border-radius: 12px;
+      padding: 20px 30px;
+      text-align: center;
+      flex: 1;
+      min-width: 120px;
+    }
+
+    .stat-card .num {
+      font-family: 'Bangers', cursive;
+      font-size: 2.2rem;
+      color: var(--green);
+      letter-spacing: 1px;
+    }
+
+    .stat-card .label {
+      font-size: 0.7rem;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-top: 4px;
+    }
+
+    /* Tracklist */
+    .section {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .section-title {
+      font-family: 'Bangers', cursive;
+      font-size: 2rem;
+      letter-spacing: 2px;
+      color: var(--text);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #222;
+    }
+
+    .track {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: var(--card);
+      border: 1px solid #1a1a1a;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 10px;
+      transition: border-color 0.2s, transform 0.2s;
+      cursor: default;
+    }
+
+    .track:hover {
+      border-color: var(--green);
+      transform: translateX(4px);
+    }
+
+    .track-num {
+      font-family: 'Bangers', cursive;
+      font-size: 1.4rem;
+      color: #333;
+      width: 30px;
+      text-align: center;
+    }
+
+    .track:hover .track-num { color: var(--green); }
+
+    .track-info { flex: 1; }
+
+    .track-name {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .track-feat {
+      font-size: 0.75rem;
+      color: #666;
+      margin-top: 2px;
+    }
+
+    .track-duration {
+      font-size: 0.8rem;
+      color: #555;
+    }
+
+    /* Lyric snippet */
+    .lyric-card {
+      background: linear-gradient(135deg, #1a2a1a, #111);
+      border: 1px solid #2a4a2a;
+      border-radius: 14px;
+      padding: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .lyric-card::before {
+      content: '"';
+      position: absolute;
+      top: -10px;
+      left: 20px;
+      font-family: 'Bangers', cursive;
+      font-size: 8rem;
+      color: #ffffff08;
+      line-height: 1;
+    }
+
+    .lyric-text {
+      font-size: 1.1rem;
+      line-height: 1.9;
+      color: #ccc;
+      position: relative;
+      z-index: 1;
+    }
+
+    .lyric-text em {
+      color: var(--gold);
+      font-style: normal;
+      font-weight: 700;
+    }
+
+    .lyric-credit {
+      margin-top: 16px;
+      font-size: 0.75rem;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    /* Footer */
+    footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 40px 20px;
+      color: #333;
+      font-size: 0.8rem;
+      border-top: 1px solid #111;
+      margin-top: 60px;
+    }
+
+    footer span { color: var(--green); }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="badge">🦎 Baby Animal Rappers</div>
+    <h1>Lil' Komodo</h1>
+    <p class="subtitle">Coldest reptile in the game • Age 2</p>
+  </header>
+
+  <div class="hero">
+    <div class="komodo-avatar">🦎</div>
+    <div class="bio">
+      <h2>The Hatchling from the Islands</h2>
+      <p>
+        Born on Komodo Island with venom in his veins and bars in his heart,
+        <strong>Lil' Komodo</strong> clawed his way out the egg and straight into the booth.
+        At just 2 years old, he's already the most feared tongue in the jungle rap scene.
+        His flow is slow, deliberate, and deadly — just like his bite.
+      </p>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat-card">
+      <div class="num">2</div>
+      <div class="label">Years Old</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">60cm</div>
+      <div class="label">Length</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">3</div>
+      <div class="label">Mixtapes</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">∞</div>
+      <div class="label">Venom</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">🎵 Discography</div>
+
+    <div class="track">
+      <div class="track-num">1</div>
+      <div class="track-info">
+        <div class="track-name">Hatch & Spit</div>
+        <div class="track-feat">ft. Baby Gila Monster</div>
+      </div>
+      <div class="track-duration">2:47</div>
+    </div>
+
+    <div class="track">
+      <div class="track-num">2</div>
+      <div class="track-info">
+        <div class="track-name">Forked Tongue Freestyle</div>
+        <div class="track-feat">Solo</div>
+      </div>
+      <div class="track-duration">3:12</div>
+    </div>
+
+    <div class="track">
+      <div class="track-num">3</div>
+      <div class="track-info">
+        <div class="track-name">Island Heat (Remix)</div>
+        <div class="track-feat">ft. Tiny Croc & Lil' Iguana</div>
+      </div>
+      <div class="track-duration">4:05</div>
+    </div>
+
+    <div class="track">
+      <div class="track-num">4</div>
+      <div class="track-info">
+        <div class="track-name">Venom Season</div>
+        <div class="track-feat">Solo</div>
+      </div>
+      <div class="track-duration">3:33</div>
+    </div>
+
+    <div class="track">
+      <div class="track-num">5</div>
+      <div class="track-info">
+        <div class="track-name">Top of the Food Chain</div>
+        <div class="track-feat">ft. Baby Anaconda</div>
+      </div>
+      <div class="track-duration">5:01</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">📜 Bars</div>
+    <div class="lyric-card">
+      <p class="lyric-text">
+        I hatched in the sand, <em>no silver spoon</em>,<br>
+        Climbed up a tree before I hit two.<br>
+        My tongue never lies, I taste the air —<br>
+        <em>You stepped in my island,</em> better say a prayer.<br>
+        They call me lil' but my venom's grown,<br>
+        <em>Coldest reptile on the microphone.</em>
+      </p>
+      <div class="lyric-credit">— Lil' Komodo, "Forked Tongue Freestyle"</div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 <span>Baby Animal Rappers</span> · Komodo Island, Indonesia · No animals were harmed in the making of these bars.</p>
+  </footer>
+
+</body>
+</html>
