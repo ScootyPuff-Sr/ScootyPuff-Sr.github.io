@@ -7,40 +7,24 @@
   <style>
     body { 
       font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
-      background: #f4f0e8; /* Soft warm beige - very easy on eyes */
+      background: #f4f0e8; 
       margin:0; 
       padding:20px; 
       color:#2c2c2c; 
     }
     .container { max-width: 620px; margin: 0 auto; }
     header { text-align:center; margin-bottom:20px; }
-    h1 { color:#2a6d5e; font-size: 28px; } /* Deep teal */
+    h1 { color:#2a6d5e; font-size: 28px; }
     
     .tabs { display:flex; gap:10px; margin-bottom:15px; }
-    .tab { 
-      padding:10px 20px; 
-      background:white; 
-      border-radius:12px; 
-      cursor:pointer; 
-      border:1px solid #d2d2d7; 
-    }
-    .tab.active { 
-      background:#2a6d5e; 
-      color:white; 
-    }
+    .tab { padding:10px 20px; background:white; border-radius:12px; cursor:pointer; border:1px solid #d2d2d7; }
+    .tab.active { background:#2a6d5e; color:white; }
 
     .controls { display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap; }
-    input { 
-      flex:1; 
-      padding:12px; 
-      border-radius:12px; 
-      border:1px solid #d2d2d7; 
-      font-size:17px; 
-      background: #faf8f2;
-    }
+    input { flex:1; padding:12px; border-radius:12px; border:1px solid #d2d2d7; font-size:17px; background: #faf8f2; }
 
     .card { 
-      background:#faf8f2; /* Very soft warm white */
+      background:#faf8f2; 
       border-radius:20px; 
       height:420px; 
       display:flex; 
@@ -54,21 +38,10 @@
     .card-inner { position:relative; width:100%; height:100%; transition:transform 0.8s; transform-style:preserve-3d; }
     .card.flipped .card-inner { transform:rotateY(180deg); }
     .card-front, .card-back { 
-      position:absolute; 
-      width:100%; 
-      height:100%; 
-      backface-visibility:hidden; 
-      display:flex; 
-      align-items:center; 
-      justify-content:center; 
-      padding:30px; 
-      box-sizing:border-box; 
+      position:absolute; width:100%; height:100%; backface-visibility:hidden; 
+      display:flex; align-items:center; justify-content:center; padding:30px; box-sizing:border-box; 
     }
-    .card-back { 
-      transform:rotateY(180deg); 
-      background:#2a6d5e; /* Calm deep teal */
-      color:white; 
-    }
+    .card-back { transform:rotateY(180deg); background:#2a6d5e; color:white; }
 
     .buttons { display:flex; justify-content:center; gap:12px; margin-top:20px; flex-wrap:wrap; }
     button { 
@@ -80,7 +53,6 @@
       border-radius:12px; 
       cursor:pointer; 
     }
-    button:active { background:#1f5246; }
 
     .stats { text-align:center; margin:15px 0; font-size:16px; color:#555; }
   </style>
@@ -117,13 +89,66 @@
   </div>
 
   <script>
-    // (Same script as before - vocab arrays unchanged)
     let currentTab = 0;
     let currentIndex = 0;
     let isFlipped = false;
 
-    const vocabMain = [ /* ... same as last version ... */ ];
-    const vocabMore = [ /* ... same large list ... */ ];
+    const vocabMain = [
+      ["¡Hola!", "Hello/Hi!"],
+      ["Buenos días.", "Good morning."],
+      ["Buenas tardes.", "Good afternoon."],
+      ["Buenas noches.", "Goodnight."],
+      ["Hasta luego.", "See you later."],
+      ["¡Adiós!", "Bye!"],
+      ["Gracias.", "Thank you."],
+      ["Por favor.", "Please."],
+      ["Lo siento.", "I'm sorry."],
+      ["No entiendo.", "I don't understand."],
+      ["¿Cuántos años tienes?", "How old are you?"],
+      ["Tengo ... años.", "I'm ... years old."],
+      ["el marido", "husband"],
+      ["la mujer", "wife"],
+      ["el hijo", "son"],
+      ["la hija", "daughter"],
+      ["el amigo / la amiga", "friend"]
+    ];
+
+    const vocabMore = [
+      ["el tejado", "roof"], ["el balcón", "balcony"], ["la ventana", "window"],
+      ["el edificio", "building"], ["el apartamento", "apartment"], ["el piso", "flat"],
+      ["alquilar", "to rent"], ["vivir", "to live"], ["la habitación", "room"],
+      ["el sótano", "cellar"], ["el techo", "ceiling"], ["la pared", "wall"],
+      ["el suelo", "floor"], ["el enchufe", "plug"], ["la nevera", "fridge"],
+      ["el horno", "oven"], ["la mesa", "table"], ["la silla", "chair"],
+      ["el plato", "plate"], ["el vaso", "glass"], ["la ducha", "shower"],
+      ["el váter", "toilet"], ["la cama", "bed"], ["el armario", "wardrobe"],
+      ["el jardín", "garden"], ["el árbol", "tree"], ["la flor", "flower"],
+      ["la carne", "meat"], ["el pescado", "fish"], ["la fruta", "fruit"],
+      ["las verduras", "vegetables"], ["el queso", "cheese"], ["la leche", "milk"],
+      ["el café", "coffee"], ["el té", "tea"], ["el camarero", "waiter"],
+      ["vegetariano", "vegetarian"], ["el teléfono", "phone"], ["el correo electrónico", "email"],
+      ["internet", "internet"], ["el ordenador", "computer"], ["el colegio", "school"],
+      ["el maestro / la maestra", "teacher"], ["el alumno / la alumna", "student"],
+      ["el banco", "bank"], ["el dinero", "money"], ["las vacaciones", "holiday"],
+      ["el médico", "doctor"], ["el hospital", "hospital"], ["la medicina", "medicine"],
+      ["el trabajo", "work"], ["la oficina", "office"], ["la reunión", "meeting"],
+      ["el tren", "train"], ["el avión", "plane"], ["el aeropuerto", "airport"],
+      ["la playa", "beach"], ["la música", "music"], ["el deporte", "sport"],
+      ["el fútbol", "football"], ["el tenis", "tennis"], ["nadar", "to swim"],
+      ["el perro", "dog"], ["el gato", "cat"], ["la montaña", "mountain"],
+      ["el mar", "sea"], ["el cumpleaños", "birthday"], ["la fiesta", "party"],
+      ["la Navidad", "Christmas"], ["el conductor", "driver"], ["el mapa", "map"],
+      ["el billete", "ticket"], ["la estación", "station"], ["el supermercado", "supermarket"],
+      ["comprar", "to buy"], ["pagar", "to pay"], ["la panadería", "bakery"],
+      ["la carnicería", "butcher"], ["la pescadería", "fishmonger"], ["el arroz", "rice"],
+      ["el pollo", "chicken"], ["el agua", "water"], ["el vino", "wine"],
+      ["la cerveza", "beer"], ["el ingeniero", "engineer"], ["el dentista", "dentist"],
+      ["el profesor", "professor"], ["la hora", "time"], ["el lunes", "Monday"],
+      ["enero", "January"], ["la primavera", "spring"], ["el verano", "summer"],
+      ["Hace sol.", "It's sunny."], ["Llueve.", "It's raining."], ["Hace calor.", "It's hot."],
+      ["el autobús", "bus"], ["el hotel", "hotel"], ["la llave", "key"],
+      ["el restaurante", "restaurant"], ["la cuenta", "the bill"]
+    ];
 
     let currentVocab = vocabMain;
 
