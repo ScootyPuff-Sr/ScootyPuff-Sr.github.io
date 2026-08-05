@@ -1,221 +1,177 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Spanish Flashcards</title>
+  <title>Houston Weather</title>
   <style>
-    body { 
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
-      background: #f4f0e8; 
-      margin:0; 
-      padding:20px; 
-      color:#2c2c2c; 
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: #fff;
     }
-    .container { max-width: 620px; margin: 0 auto; }
-    header { text-align:center; margin-bottom:20px; }
-    h1 { color:#2a6d5e; font-size: 28px; }
-    
-    .tabs { display:flex; gap:10px; margin-bottom:15px; }
-    .tab { padding:10px 20px; background:white; border-radius:12px; cursor:pointer; border:1px solid #d2d2d7; }
-    .tab.active { background:#2a6d5e; color:white; }
-
-    .controls { display:flex; gap:10px; margin-bottom:15px; flex-wrap:wrap; }
-    input { flex:1; padding:12px; border-radius:12px; border:1px solid #d2d2d7; font-size:17px; background: #faf8f2; }
-
-    .card { 
-      background:#faf8f2; 
-      border-radius:20px; 
-      height:420px; 
-      display:flex; 
-      align-items:center; 
-      justify-content:center; 
-      text-align:center; 
-      font-size:26px; 
-      cursor:pointer; 
-      box-shadow:0 10px 30px rgba(0,0,0,0.08); 
+    .card {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(12px);
+      border-radius: 24px;
+      padding: 40px 36px;
+      width: 100%;
+      max-width: 380px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.18);
     }
-    .card-inner { position:relative; width:100%; height:100%; transition:transform 0.8s; transform-style:preserve-3d; }
-    .card.flipped .card-inner { transform:rotateY(180deg); }
-    .card-front, .card-back { 
-      position:absolute; width:100%; height:100%; backface-visibility:hidden; 
-      display:flex; align-items:center; justify-content:center; padding:30px; box-sizing:border-box; 
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
     }
-    .card-back { transform:rotateY(180deg); background:#2a6d5e; color:white; }
-
-    .buttons { display:flex; justify-content:center; gap:12px; margin-top:20px; flex-wrap:wrap; }
-    button { 
-      padding:14px 24px; 
-      font-size:17px; 
-      background:#2a6d5e; 
-      color:white; 
-      border:none; 
-      border-radius:12px; 
-      cursor:pointer; 
+    .location {
+      font-size: 0.95rem;
+      opacity: 0.85;
+      margin-bottom: 28px;
     }
-
-    .stats { text-align:center; margin:15px 0; font-size:16px; color:#555; }
+    .temp {
+      font-size: 4.5rem;
+      font-weight: 300;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .unit {
+      font-size: 1.8rem;
+      vertical-align: super;
+      opacity: 0.9;
+    }
+    .desc {
+      font-size: 1.25rem;
+      font-weight: 500;
+      margin-bottom: 28px;
+      text-transform: capitalize;
+    }
+    .details {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 32px;
+      font-size: 0.95rem;
+    }
+    .detail {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 14px 10px;
+    }
+    .detail span {
+      display: block;
+      font-size: 0.8rem;
+      opacity: 0.75;
+      margin-bottom: 4px;
+    }
+    button {
+      background: #fff;
+      color: #1e3c72;
+      border: none;
+      padding: 12px 28px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    }
+    button:active { transform: translateY(0); }
+    .loading, .error {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      padding: 40px 0;
+    }
+    .error { color: #ffb3b3; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>Spanish Flashcards</h1>
-    </header>
-
-    <div class="tabs">
-      <div class="tab active" onclick="switchTab(0)">Main</div>
-      <div class="tab" onclick="switchTab(1)">More Words</div>
+  <div class="card">
+    <h1>Houston Weather</h1>
+    <div class="location">Houston, Texas</div>
+    <div id="content">
+      <div class="loading">Loading…</div>
     </div>
-
-    <div class="controls">
-      <input type="text" id="search" placeholder="Search...">
-      <button onclick="shuffleCards()">Shuffle</button>
-    </div>
-
-    <div class="stats" id="stats">Card 1 of 0</div>
-
-    <div class="card" id="card">
-      <div class="card-inner" id="card-inner">
-        <div class="card-front" id="front">Tap to start</div>
-        <div class="card-back" id="back"></div>
-      </div>
-    </div>
-
-    <div class="buttons">
-      <button onclick="flipCard()">Flip Card</button>
-      <button onclick="nextCard()">Next Card →</button>
-    </div>
+    <button onclick="getWeather()">Refresh</button>
   </div>
 
   <script>
-    let currentTab = 0;
-    let currentIndex = 0;
-    let isFlipped = false;
+    const weatherCodes = {
+      0: "Clear sky",
+      1: "Mainly clear",
+      2: "Partly cloudy",
+      3: "Overcast",
+      45: "Fog",
+      48: "Depositing rime fog",
+      51: "Light drizzle",
+      53: "Moderate drizzle",
+      55: "Dense drizzle",
+      61: "Slight rain",
+      63: "Moderate rain",
+      65: "Heavy rain",
+      71: "Slight snow",
+      73: "Moderate snow",
+      75: "Heavy snow",
+      80: "Slight rain showers",
+      81: "Moderate rain showers",
+      82: "Violent rain showers",
+      95: "Thunderstorm",
+      96: "Thunderstorm with slight hail",
+      99: "Thunderstorm with heavy hail"
+    };
 
-    const vocabMain = [
-      ["¡Hola!", "Hello/Hi!"],
-      ["Buenos días.", "Good morning."],
-      ["Buenas tardes.", "Good afternoon."],
-      ["Buenas noches.", "Goodnight."],
-      ["Hasta luego.", "See you later."],
-      ["¡Adiós!", "Bye!"],
-      ["Gracias.", "Thank you."],
-      ["Por favor.", "Please."],
-      ["Lo siento.", "I'm sorry."],
-      ["No entiendo.", "I don't understand."],
-      ["¿Cuántos años tienes?", "How old are you?"],
-      ["Tengo ... años.", "I'm ... years old."],
-      ["el marido", "husband"],
-      ["la mujer", "wife"],
-      ["el hijo", "son"],
-      ["la hija", "daughter"],
-      ["el amigo / la amiga", "friend"]
-    ];
+    async function getWeather() {
+      const content = document.getElementById("content");
+      content.innerHTML = `<div class="loading">Loading…</div>`;
 
-    const vocabMore = [
-      ["el tejado", "roof"], ["el balcón", "balcony"], ["la ventana", "window"],
-      ["el edificio", "building"], ["el apartamento", "apartment"], ["el piso", "flat"],
-      ["alquilar", "to rent"], ["vivir", "to live"], ["la habitación", "room"],
-      ["el sótano", "cellar"], ["el techo", "ceiling"], ["la pared", "wall"],
-      ["el suelo", "floor"], ["el enchufe", "plug"], ["la nevera", "fridge"],
-      ["el horno", "oven"], ["la mesa", "table"], ["la silla", "chair"],
-      ["el plato", "plate"], ["el vaso", "glass"], ["la ducha", "shower"],
-      ["el váter", "toilet"], ["la cama", "bed"], ["el armario", "wardrobe"],
-      ["el jardín", "garden"], ["el árbol", "tree"], ["la flor", "flower"],
-      ["la carne", "meat"], ["el pescado", "fish"], ["la fruta", "fruit"],
-      ["las verduras", "vegetables"], ["el queso", "cheese"], ["la leche", "milk"],
-      ["el café", "coffee"], ["el té", "tea"], ["el camarero", "waiter"],
-      ["vegetariano", "vegetarian"], ["el teléfono", "phone"], ["el correo electrónico", "email"],
-      ["internet", "internet"], ["el ordenador", "computer"], ["el colegio", "school"],
-      ["el maestro / la maestra", "teacher"], ["el alumno / la alumna", "student"],
-      ["el banco", "bank"], ["el dinero", "money"], ["las vacaciones", "holiday"],
-      ["el médico", "doctor"], ["el hospital", "hospital"], ["la medicina", "medicine"],
-      ["el trabajo", "work"], ["la oficina", "office"], ["la reunión", "meeting"],
-      ["el tren", "train"], ["el avión", "plane"], ["el aeropuerto", "airport"],
-      ["la playa", "beach"], ["la música", "music"], ["el deporte", "sport"],
-      ["el fútbol", "football"], ["el tenis", "tennis"], ["nadar", "to swim"],
-      ["el perro", "dog"], ["el gato", "cat"], ["la montaña", "mountain"],
-      ["el mar", "sea"], ["el cumpleaños", "birthday"], ["la fiesta", "party"],
-      ["la Navidad", "Christmas"], ["el conductor", "driver"], ["el mapa", "map"],
-      ["el billete", "ticket"], ["la estación", "station"], ["el supermercado", "supermarket"],
-      ["comprar", "to buy"], ["pagar", "to pay"], ["la panadería", "bakery"],
-      ["la carnicería", "butcher"], ["la pescadería", "fishmonger"], ["el arroz", "rice"],
-      ["el pollo", "chicken"], ["el agua", "water"], ["el vino", "wine"],
-      ["la cerveza", "beer"], ["el ingeniero", "engineer"], ["el dentista", "dentist"],
-      ["el profesor", "professor"], ["la hora", "time"], ["el lunes", "Monday"],
-      ["enero", "January"], ["la primavera", "spring"], ["el verano", "summer"],
-      ["Hace sol.", "It's sunny."], ["Llueve.", "It's raining."], ["Hace calor.", "It's hot."],
-      ["el autobús", "bus"], ["el hotel", "hotel"], ["la llave", "key"],
-      ["el restaurante", "restaurant"], ["la cuenta", "the bill"]
-    ];
+      const url = "https://api.open-meteo.com/v1/forecast?latitude=29.7604&longitude=-95.3698&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America%2FChicago";
 
-    let currentVocab = vocabMain;
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error("Network response was not ok");
+        const data = await res.json();
+        const current = data.current;
 
-    const card = document.getElementById('card');
-    const front = document.getElementById('front');
-    const back = document.getElementById('back');
+        const temp = Math.round(current.temperature_2m);
+        const humidity = current.relative_humidity_2m;
+        const wind = Math.round(current.wind_speed_10m);
+        const code = current.weather_code;
+        const desc = weatherCodes[code] || "Unknown";
 
-    function showCard() {
-      const [spanish, english] = currentVocab[currentIndex];
-      front.textContent = spanish;
-      back.textContent = english;
-      card.classList.remove('flipped');
-      isFlipped = false;
-      updateStats();
-    }
-
-    function flipCard() {
-      card.classList.toggle('flipped');
-      isFlipped = !isFlipped;
-    }
-
-    function nextCard() {
-      currentIndex = (currentIndex + 1) % currentVocab.length;
-      showCard();
-    }
-
-    function shuffleCards() {
-      for (let i = currentVocab.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [currentVocab[i], currentVocab[j]] = [currentVocab[j], currentVocab[i]];
+        content.innerHTML = `
+          <div class="temp">${temp}<span class="unit">°F</span></div>
+          <div class="desc">${desc}</div>
+          <div class="details">
+            <div class="detail">
+              <span>Humidity</span>
+              ${humidity}%
+            </div>
+            <div class="detail">
+              <span>Wind</span>
+              ${wind} mph
+            </div>
+          </div>
+        `;
+      } catch (err) {
+        content.innerHTML = `<div class="error">Unable to load weather.<br>Check your connection.</div>`;
+        console.error(err);
       }
-      currentIndex = 0;
-      showCard();
     }
 
-    function updateStats() {
-      document.getElementById('stats').textContent = `${currentIndex + 1} / ${currentVocab.length}`;
-    }
-
-    function switchTab(tab) {
-      currentTab = tab;
-      currentVocab = tab === 0 ? vocabMain : vocabMore;
-      document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', i === tab));
-      currentIndex = 0;
-      showCard();
-    }
-
-    document.getElementById('search').addEventListener('input', (e) => {
-      const term = e.target.value.toLowerCase().trim();
-      if (!term) return;
-      const filtered = currentVocab.filter(([es, en]) => 
-        es.toLowerCase().includes(term) || en.toLowerCase().includes(term)
-      );
-      if (filtered.length > 0) {
-        currentVocab = filtered;
-        currentIndex = 0;
-        showCard();
-      }
-    });
-
-    card.addEventListener('click', flipCard);
-    document.addEventListener('keydown', e => {
-      if (e.key === " " || e.key === "Enter") flipCard();
-      if (e.key === "ArrowRight") nextCard();
-    });
-
-    showCard();
+    // Load on page open
+    getWeather();
   </script>
 </body>
 </html>
