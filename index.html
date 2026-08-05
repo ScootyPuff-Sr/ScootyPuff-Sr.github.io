@@ -3,175 +3,123 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Houston Weather</title>
+  <title>Swimsuit Models</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
+      background: #0f0f0f;
       color: #fff;
+      min-height: 100vh;
+      padding: 30px 20px 60px;
     }
-    .card {
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(12px);
-      border-radius: 24px;
-      padding: 40px 36px;
-      width: 100%;
-      max-width: 380px;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    header {
       text-align: center;
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      margin-bottom: 40px;
     }
     h1 {
-      font-size: 1.6rem;
-      font-weight: 600;
+      font-size: 2.4rem;
+      font-weight: 300;
+      letter-spacing: 3px;
+      text-transform: uppercase;
       margin-bottom: 8px;
+    }
+    .subtitle {
+      font-size: 1rem;
+      opacity: 0.6;
+      letter-spacing: 1px;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .card {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #1a1a1a;
+      aspect-ratio: 3 / 4;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .card:hover img {
+      transform: scale(1.05);
+    }
+    .caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 20px 16px 16px;
+      background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+      font-size: 0.95rem;
       letter-spacing: 0.5px;
     }
-    .location {
-      font-size: 0.95rem;
-      opacity: 0.85;
-      margin-bottom: 28px;
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      font-size: 0.85rem;
+      opacity: 0.5;
     }
-    .temp {
-      font-size: 4.5rem;
-      font-weight: 300;
-      line-height: 1;
-      margin-bottom: 6px;
+    @media (max-width: 600px) {
+      h1 { font-size: 1.8rem; }
+      .gallery { gap: 16px; }
     }
-    .unit {
-      font-size: 1.8rem;
-      vertical-align: super;
-      opacity: 0.9;
-    }
-    .desc {
-      font-size: 1.25rem;
-      font-weight: 500;
-      margin-bottom: 28px;
-      text-transform: capitalize;
-    }
-    .details {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 32px;
-      font-size: 0.95rem;
-    }
-    .detail {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 14px 10px;
-    }
-    .detail span {
-      display: block;
-      font-size: 0.8rem;
-      opacity: 0.75;
-      margin-bottom: 4px;
-    }
-    button {
-      background: #fff;
-      color: #1e3c72;
-      border: none;
-      padding: 12px 28px;
-      font-size: 1rem;
-      font-weight: 600;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.15s;
-    }
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-    }
-    button:active { transform: translateY(0); }
-    .loading, .error {
-      font-size: 1.1rem;
-      opacity: 0.9;
-      padding: 40px 0;
-    }
-    .error { color: #ffb3b3; }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Houston Weather</h1>
-    <div class="location">Houston, Texas</div>
-    <div id="content">
-      <div class="loading">Loading…</div>
+  <header>
+    <h1>Swimsuit Models</h1>
+    <p class="subtitle">Summer Collection</p>
+  </header>
+
+  <div class="gallery">
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80" alt="Swimsuit model" loading="lazy">
+      <div class="caption">Coastal Classic</div>
     </div>
-    <button onclick="getWeather()">Refresh</button>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1506629082955-511b1aa1ec2a?w=600&q=80" alt="Swimsuit model" loading="lazy">
+      <div class="caption">Sunset Beach</div>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=600&q=80" alt="Swimsuit model" loading="lazy">
+      <div class="caption">Active Swim</div>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=600&q=80" alt="Swimsuit model" loading="lazy">
+      <div class="caption">Ocean Breeze</div>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=80" alt="Swimsuit model" loading="lazy">
+      <div class="caption">Tropical Glow</div>
+    </div>
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=600&q=80" alt="Swimsuit model" loading="lazy">
+      <div class="caption">Golden Hour</div>
+    </div>
   </div>
 
-  <script>
-    const weatherCodes = {
-      0: "Clear sky",
-      1: "Mainly clear",
-      2: "Partly cloudy",
-      3: "Overcast",
-      45: "Fog",
-      48: "Depositing rime fog",
-      51: "Light drizzle",
-      53: "Moderate drizzle",
-      55: "Dense drizzle",
-      61: "Slight rain",
-      63: "Moderate rain",
-      65: "Heavy rain",
-      71: "Slight snow",
-      73: "Moderate snow",
-      75: "Heavy snow",
-      80: "Slight rain showers",
-      81: "Moderate rain showers",
-      82: "Violent rain showers",
-      95: "Thunderstorm",
-      96: "Thunderstorm with slight hail",
-      99: "Thunderstorm with heavy hail"
-    };
-
-    async function getWeather() {
-      const content = document.getElementById("content");
-      content.innerHTML = `<div class="loading">Loading…</div>`;
-
-      const url = "https://api.open-meteo.com/v1/forecast?latitude=29.7604&longitude=-95.3698&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&temperature_unit=fahrenheit&wind_speed_unit=mph&timezone=America%2FChicago";
-
-      try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error("Network response was not ok");
-        const data = await res.json();
-        const current = data.current;
-
-        const temp = Math.round(current.temperature_2m);
-        const humidity = current.relative_humidity_2m;
-        const wind = Math.round(current.wind_speed_10m);
-        const code = current.weather_code;
-        const desc = weatherCodes[code] || "Unknown";
-
-        content.innerHTML = `
-          <div class="temp">${temp}<span class="unit">°F</span></div>
-          <div class="desc">${desc}</div>
-          <div class="details">
-            <div class="detail">
-              <span>Humidity</span>
-              ${humidity}%
-            </div>
-            <div class="detail">
-              <span>Wind</span>
-              ${wind} mph
-            </div>
-          </div>
-        `;
-      } catch (err) {
-        content.innerHTML = `<div class="error">Unable to load weather.<br>Check your connection.</div>`;
-        console.error(err);
-      }
-    }
-
-    // Load on page open
-    getWeather();
-  </script>
+  <footer>
+    Single-page gallery • Images from Unsplash
+  </footer>
 </body>
 </html>
